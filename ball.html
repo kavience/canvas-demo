@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>单个小球物理实验</title>
+</head>
+<body>
+	<canvas id="ballCanvas"></canvas>
+
+<script>
+	WIDTH = 1300;
+	HEIGHT = 600;
+	let ball = {
+		x: 1000,
+		y: 200,
+		vx: -5,
+		vy: 0,
+		g: 2,
+		r: 9
+	}
+	window.onload = function () {
+		let canvas = document.getElementById('ballCanvas')
+
+		canvas.width = WIDTH
+		canvas.height = HEIGHT
+
+		let context = canvas.getContext("2d")
+
+		setInterval(function () {
+			render(context)
+			update()
+		}, 50)
+	}
+
+	function render(context) {
+		context.clearRect(0, 0, WIDTH,HEIGHT)
+
+		context.fillStyle = "rgb(0 102 153)"
+		context.beginPath()
+		context.arc(ball.x, ball.y, ball.r, 0, 2*Math.PI)
+		context.closePath()
+		context.fill()
+	}
+
+	function update() {
+		ball.x += ball.vx
+		ball.y += ball.vy
+		ball.vy += ball.g
+		if (ball.y > HEIGHT - ball.r) {
+			if (Math.abs(ball.vy) < 7) {
+				ball.vy = 0
+			}
+			ball.y = HEIGHT - ball.r
+			ball.vy = -ball.vy * 0.5
+		}
+
+	}
+</script>
+</body>
+</html>
